@@ -1,10 +1,11 @@
 {
   "dependencies": {
-    "node-blinkt": "^1.0.1",
     "color-functions": "^1.1.0",
-    "express": "^4.15.3"
+    "detect-rpi": "^1.1.0",
+    "express": "^4.15.3",
+    "node-blinkt": "^1.0.1"
   },
   "scripts": {
-    "start": "sudo node server.js"
+    "start": "node server.js"
   }
 }
