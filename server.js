@@ -4,21 +4,26 @@ const cssColor = require('color-functions/lib/css-color');
 const isPi = require('detect-rpi')();
 const Blinkt = isPi ? require('node-blinkt') : undefined;
 
-function chip(r, g, b, a) {
-  const color = `rgba(${r},${g},${b},${a})`;
-  return `<a href='/color/${color}' class="chip" style='background-color:${color}'></a>`
+
+function chip(color) {
+  return `<a href='/color/${encodeURIComponent(color)}' class="chip" style='background-color:${color}'></a>`
 }
 
 app.get('/', (req, res) => {
 
-  const increment = 40;
+  const hi = 360 / 10;
+  const si = 20;
+  const li = 5;
   
   let str = '';
-  for (let b = 0; b < 256; b += increment) {
-    for (let g = 0; g < 256; g += increment) {
-      for (let r = 0; r < 256; r += increment) {
-        str += chip(r,g,b, 1.0);
+  for (let h = 0; h <= 360; h += hi) {
+    for (let s = 0; s <= 100; s += si) {
+      str += `<div class='row'>`;
+      for (let l = 0; l <= 100; l += li) {
+        const color = `hsl(${h},${s}%,${l}%)`;
+        str += chip(color);
       }
+      str += `</div>`;
     }
   }
   const page = `
@@ -31,10 +36,10 @@ app.get('/', (req, res) => {
           width: 40px;
           height: 40px;
           display: block;
+          flex: 1;
         }
-        .container {
+        .row {
           display: flex;
-          flex-wrap: wrap;
           width: 100%;
         }
       </style>
